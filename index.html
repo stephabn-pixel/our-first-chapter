@@ -699,6 +699,37 @@ p{line-height:1.7}
   .vinyl-lock-title{font-size:30px}
 }
 
+
+/* V7 photo system */
+.photo{
+  position:relative;
+  overflow:hidden;
+  background:#e8dccd;
+}
+.photo img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+}
+.photo img.soft-fit{object-fit:contain;background:#e8dccd}
+.photo::after{
+  content:attr(data-placeholder);
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  padding:10px;
+  text-align:center;
+  color:rgba(91,30,35,.46);
+  font:10px/1.4 Arial,sans-serif;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  pointer-events:none;
+}
+.photo.has-image::after{display:none}
+
 </style>
 </head>
 <body>
@@ -759,8 +790,8 @@ p{line-height:1.7}
       <div class="script bottom">our first chapter</div>
     </div>
     <div class="page pin cover-right">
-      <div class="pol a"><div class="photo"></div><div class="caption">Toronto, us</div></div>
-      <div class="pol b"><div class="photo"></div><div class="caption">my favorite place is next to you</div></div>
+      <div class="pol a"><div class="photo" data-photo="cover-01" data-placeholder="cover photo"></div><div class="caption">Toronto, us</div></div>
+      <div class="pol b"><div class="photo" data-photo="cover-02" data-placeholder="cover photo"></div><div class="caption">my favorite place is next to you</div></div>
       <div class="tiny">Some stories begin quietly — long before you realize you're in one.</div>
       <div class="fold"></div>
     </div>
@@ -772,10 +803,10 @@ p{line-height:1.7}
     <div class="page started-left">
       <div class="micro" style="color:var(--wine)">01 / BEFORE THERE WAS US</div>
       <div style="position:absolute;left:8%;top:14%;width:38%;height:56%;background:#f1e3cf;padding:9px 9px 30px;box-shadow:0 12px 28px #0002;transform:rotate(-4deg)">
-        <div class="photo"></div><div class="caption">baby me</div>
+        <div class="photo" data-photo="baby-me" data-placeholder="baby me"></div><div class="caption">baby me</div>
       </div>
       <div style="position:absolute;right:8%;top:21%;width:38%;height:56%;background:#f1e3cf;padding:9px 9px 30px;box-shadow:0 12px 28px #0002;transform:rotate(4deg)">
-        <div class="photo"></div><div class="caption">baby you</div>
+        <div class="photo" data-photo="baby-him" data-placeholder="baby him"></div><div class="caption">baby you</div>
       </div>
       <div style="position:absolute;left:50%;bottom:8%;transform:translateX(-50%);text-align:center;width:84%">
         <div class="script" style="font-size:34px;color:var(--wine)">Before there was an “us”...</div>
@@ -813,7 +844,7 @@ p{line-height:1.7}
 <section class="scene">
   <div class="book">
     <div class="page toronto-left">
-      <div class="photo"></div>
+      <div class="photo" data-photo="toronto-hero" data-placeholder="Toronto hero"></div>
       <div class="label">Toronto — where “us” became real.</div>
     </div>
     <div class="page toronto-right">
@@ -821,8 +852,8 @@ p{line-height:1.7}
       <h2>So we chose<br>a city in<br>between.</h2>
       <p style="max-width:390px">Me in Paris. You in Kansas. And somehow the answer was Toronto.</p>
       <div class="script">the place where the person on my screen became the person beside me</div>
-      <div class="pol one"><div class="photo"></div><div class="caption">first days together</div></div>
-      <div class="pol two"><div class="photo"></div><div class="caption">I still replay this</div></div>
+      <div class="pol one"><div class="photo" data-photo="toronto-01" data-placeholder="Toronto photo"></div><div class="caption">first days together</div></div>
+      <div class="pol two"><div class="photo" data-photo="toronto-02" data-placeholder="Toronto photo"></div><div class="caption">I still replay this</div></div>
     </div>
   </div>
 </section>
@@ -831,16 +862,16 @@ p{line-height:1.7}
   <div class="book">
     <div class="page mem-left">
       <div class="micro" style="color:var(--wine)">04 / OUR TORONTO ARCHIVE</div>
-      <div class="pol one"><div class="photo"></div><div class="caption">you</div></div>
-      <div class="pol two"><div class="photo"></div><div class="caption">us</div></div>
-      <div class="pol three"><div class="photo"></div><div class="caption">one I never want to forget</div></div>
+      <div class="pol one"><div class="photo" data-photo="toronto-03" data-placeholder="Toronto photo"></div><div class="caption">you</div></div>
+      <div class="pol two"><div class="photo" data-photo="toronto-04" data-placeholder="Toronto photo"></div><div class="caption">us</div></div>
+      <div class="pol three"><div class="photo" data-photo="toronto-05" data-placeholder="Toronto photo"></div><div class="caption">one I never want to forget</div></div>
       <div class="fold"></div>
     </div>
     <div class="page mem-right">
       <div class="script">the little things I kept</div>
       <div class="grid">
-        <div class="photo"></div><div class="photo"></div><div class="photo"></div>
-        <div class="photo"></div><div class="photo"></div><div class="photo"></div>
+        <div class="photo" data-photo="toronto-06" data-placeholder="Toronto detail"></div><div class="photo" data-photo="toronto-07" data-placeholder="Toronto detail"></div><div class="photo" data-photo="toronto-08" data-placeholder="Toronto detail"></div>
+        <div class="photo" data-photo="toronto-09" data-placeholder="Toronto detail"></div><div class="photo" data-photo="toronto-10" data-placeholder="Toronto detail"></div><div class="photo" data-photo="toronto-11" data-placeholder="Toronto detail"></div>
       </div>
       <div class="micro" style="color:var(--wine);margin-top:12px">hotel mornings · streets · food · blurry pictures · you looking at me · us being us</div>
     </div>
@@ -859,9 +890,9 @@ p{line-height:1.7}
     </div>
     <div class="page glimpse-right">
       <div class="glimpse-grid">
-        <div class="photo"></div><div class="photo"></div><div class="photo"></div>
-        <div class="photo"></div><div class="photo"></div><div class="photo"></div>
-        <div class="photo"></div><div class="photo"></div><div class="photo"></div>
+        <div class="photo" data-photo="toronto-12" data-placeholder="Toronto memory"></div><div class="photo" data-photo="toronto-13" data-placeholder="Toronto memory"></div><div class="photo" data-photo="toronto-14" data-placeholder="Toronto memory"></div>
+        <div class="photo" data-photo="toronto-15" data-placeholder="Toronto memory"></div><div class="photo" data-photo="toronto-16" data-placeholder="Toronto memory"></div><div class="photo" data-photo="toronto-17" data-placeholder="Toronto memory"></div>
+        <div class="photo" data-photo="toronto-18" data-placeholder="Toronto memory"></div><div class="photo" data-photo="toronto-19" data-placeholder="Toronto memory"></div><div class="photo" data-photo="toronto-20" data-placeholder="Toronto memory"></div>
       </div>
       <button class="secret-heart" id="secretHeart" aria-label="Hidden surprise">♥</button>
       <div class="secret-note" id="secretNote">I'd go back to every one of these moments with you. ♡</div>
@@ -988,6 +1019,40 @@ secretHeart.addEventListener('click',()=>secretNote.classList.toggle('show'));
     }
   });
   render();
+})();
+</script>
+
+
+<script>
+/*
+  PHOTO SYSTEM
+  Upload photos into /images in the GitHub repository.
+  JPG, JPEG, PNG and WEBP are detected automatically.
+  The page stays usable if a photo has not been uploaded yet.
+*/
+(function(){
+  const extensions = ["jpg","jpeg","png","webp"];
+  const slots = document.querySelectorAll("[data-photo]");
+
+  slots.forEach(slot => {
+    const name = slot.dataset.photo;
+    let attempt = 0;
+
+    function tryNext(){
+      if(attempt >= extensions.length) return;
+      const ext = extensions[attempt++];
+      const img = new Image();
+      img.alt = slot.dataset.placeholder || "Our photo";
+      img.onload = () => {
+        slot.innerHTML = "";
+        slot.appendChild(img);
+        slot.classList.add("has-image");
+      };
+      img.onerror = tryNext;
+      img.src = "images/" + name + "." + ext;
+    }
+    tryNext();
+  });
 })();
 </script>
 
