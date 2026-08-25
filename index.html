@@ -1,0 +1,995 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Everything Led To Us</title>
+<style>
+:root{
+  --cream:#f3eadc;
+  --paper:#fbf5eb;
+  --wine:#711522;
+  --wine-dark:#4a0c15;
+  --ink:#241a17;
+  --muted:#806d62;
+  --line:#d8c4ae;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#17110f;color:var(--ink);font-family:Georgia,"Times New Roman",serif}
+body{min-height:100vh}
+button{font:inherit}
+.site{min-height:100vh}
+.scene{
+  display:none;
+  min-height:100vh;
+  place-items:center;
+  padding:28px;
+  position:relative;
+  overflow:hidden;
+}
+.scene.active{display:grid;animation:fade .35s ease}
+.book{
+  width:min(1120px,94vw);
+  height:min(700px,82vh);
+  min-height:570px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  box-shadow:0 30px 80px #0008;
+  position:relative;
+  background:var(--paper);
+}
+.book:after{
+  content:"";
+  position:absolute;
+  left:50%;top:0;bottom:0;width:18px;
+  transform:translateX(-50%);
+  background:linear-gradient(90deg,#0000,#3a251b22,#0002,#fff3,#0000);
+  pointer-events:none;
+  z-index:10;
+}
+.page{
+  position:relative;
+  overflow:hidden;
+  padding:46px;
+  background:var(--paper);
+}
+.wine{background:var(--wine);color:var(--cream)}
+.pin{
+  background-color:var(--wine);
+  background-image:repeating-linear-gradient(90deg,transparent 0 8px,rgba(255,255,255,.5) 9px 10px);
+}
+.micro{font:10px Arial,sans-serif;letter-spacing:.22em;text-transform:uppercase}
+.script{font-family:"Brush Script MT","Segoe Script",cursive}
+h1,h2{font-weight:400;margin:0;letter-spacing:-.045em}
+h1{font-size:clamp(56px,7vw,96px);line-height:.8;color:var(--wine)}
+h2{font-size:clamp(42px,5vw,70px);line-height:.88}
+p{line-height:1.7}
+.nav{
+  position:fixed;bottom:20px;z-index:50;border:0;
+  background:#f6eee2;color:var(--wine);
+  width:48px;height:48px;border-radius:50%;
+  font-size:24px;cursor:pointer;box-shadow:0 8px 25px #0005;
+}
+.prev{left:22px}.next{right:22px}
+.num{
+  position:fixed;bottom:34px;left:50%;transform:translateX(-50%);
+  color:#eee;font:10px Arial;letter-spacing:.18em;
+}
+.photo{
+  background:linear-gradient(145deg,#b9aa9c,#77675d);
+  display:grid;place-items:center;color:#f8f0e6;
+  font:10px Arial;letter-spacing:.12em;
+  position:relative;overflow:hidden;
+}
+.photo:after{content:"YOUR PHOTO";opacity:.8}
+.pol{
+  background:#f8f0e4;padding:8px 8px 29px;
+  box-shadow:0 12px 30px #0003;position:absolute;
+}
+.pol .photo{width:100%;height:100%}
+.caption{
+  position:absolute;bottom:7px;left:11px;color:var(--wine);
+  font:16px "Brush Script MT","Segoe Script",cursive;
+}
+.fold{
+  position:absolute;right:-3px;bottom:-3px;width:150px;height:145px;
+  background:linear-gradient(135deg,#e9dcc8 0 49%,#c8b39a 50% 52%,#f8efe2 53%);
+  clip-path:polygon(100% 0,100% 100%,0 100%);
+  filter:drop-shadow(-6px -6px 7px #0002);
+}
+
+/* Cover */
+.cover-left{display:flex;flex-direction:column;justify-content:center}
+.cover-left .script.top{
+  font-size:42px;color:var(--wine);transform:rotate(-4deg);margin-bottom:3px;
+}
+.cover-left .script.bottom{
+  font-size:30px;color:var(--wine);margin:22px 0 0 130px;transform:rotate(-4deg);
+}
+.cover-right .pol.a{left:12%;top:12%;width:40%;height:43%;transform:rotate(-4deg)}
+.cover-right .pol.b{right:8%;bottom:12%;width:46%;height:50%;transform:rotate(4deg)}
+.cover-right .tiny{
+  position:absolute;left:12%;bottom:12%;max-width:180px;
+  font:23px/1.05 "Brush Script MT","Segoe Script",cursive;color:var(--cream);
+}
+
+/* How it started */
+.started-left .year{
+  font-size:88px;color:#ead7c9;position:absolute;right:20px;bottom:15px;
+}
+.playing-card{
+  width:230px;height:320px;background:#efe0c9;margin:55px auto 0;
+  padding:22px;position:relative;box-shadow:0 10px 24px #0002;
+}
+.playing-card .photo{height:230px}
+.playing-card:before,.playing-card:after{
+  content:"A";position:absolute;font-size:34px;color:var(--wine)
+}
+.playing-card:before{left:12px;top:8px}
+.playing-card:after{right:12px;bottom:8px;transform:rotate(180deg)}
+.started-right{display:flex;flex-direction:column;justify-content:center}
+.started-right .script{font-size:46px;line-height:1.12}
+.started-right p{font-size:17px;max-width:390px;color:#f0dcd3}
+
+/* Toronto */
+.toronto-left{padding:0}
+.toronto-left .photo{width:100%;height:100%}
+.toronto-left .label{
+  position:absolute;left:30px;bottom:30px;background:var(--paper);color:var(--wine);
+  padding:12px 16px;font:22px "Brush Script MT","Segoe Script",cursive;
+  transform:rotate(-3deg)
+}
+.toronto-right h2{color:var(--wine);margin-top:22px}
+.toronto-right .script{font-size:32px;color:var(--wine);margin-top:10px}
+.toronto-right .pol.one{left:9%;bottom:10%;width:35%;height:35%;transform:rotate(-4deg)}
+.toronto-right .pol.two{right:8%;bottom:12%;width:38%;height:42%;transform:rotate(3deg)}
+
+/* Toronto memories */
+.mem-left .pol.one{left:10%;top:12%;width:38%;height:36%;transform:rotate(-3deg)}
+.mem-left .pol.two{right:8%;top:32%;width:42%;height:42%;transform:rotate(3deg)}
+.mem-left .pol.three{left:12%;bottom:8%;width:32%;height:29%;transform:rotate(1deg)}
+.mem-right{padding:28px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;height:78%}
+.grid .photo{min-height:0}
+.mem-right .script{font-size:30px;color:var(--wine);margin-bottom:14px}
+
+/* Meant to be */
+.fate-left{display:flex;flex-direction:column;justify-content:center}
+.fate-left h2{color:var(--wine)}
+.fate-left .script{font-size:35px;color:var(--wine);margin-top:18px}
+.evidence{width:82%;display:grid;gap:16px;margin:auto}
+.line{border-bottom:1px solid #f0c8ce;padding:0 0 13px}
+.line b{font:25px "Brush Script MT","Segoe Script",cursive}
+.line span{display:block;font-size:13px;margin-top:5px;color:#f1d9dd}
+
+/* Glimpse */
+.glimpse-left{display:flex;align-items:center;justify-content:center}
+.glimpse-left .script{font-size:48px;color:var(--wine);text-align:center}
+.glimpse-right{padding:25px}
+.glimpse-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);
+  gap:7px;height:100%;
+}
+.glimpse-grid .photo:before{
+  content:"♥";position:absolute;left:7px;bottom:5px;color:#fff;font-size:18px;z-index:2
+}
+
+/* Letter */
+.letter-left{display:flex;align-items:center;justify-content:center}
+.envelope{
+  width:330px;height:210px;background:#e8dac6;position:relative;
+  box-shadow:0 15px 35px #0003;cursor:pointer;transition:.3s;
+}
+.envelope:before{
+  content:"";position:absolute;inset:0;clip-path:polygon(0 0,50% 55%,100% 0);
+  background:#f6ebdb;transform-origin:top;transition:.5s
+}
+.envelope.open:before{transform:rotateX(165deg)}
+.envelope .script{
+  position:absolute;inset:0;display:grid;place-items:center;color:var(--wine);
+  font-size:32px;z-index:3
+}
+.letter-right{display:flex;flex-direction:column;justify-content:center}
+.letter-right h2{color:var(--cream)}
+.letter-text{
+  opacity:0;transform:translateY(10px);transition:.5s .2s;
+  font-size:16px;line-height:1.75;color:#f3dfe1;max-width:420px
+}
+.letter-text.show{opacity:1;transform:none}
+.sign{font:32px "Brush Script MT","Segoe Script",cursive;margin-top:18px}
+
+/* tiny easter egg */
+.secret-heart{
+  position:absolute;right:17px;top:17px;border:0;background:none;
+  color:#f4d7dc;font-size:16px;cursor:pointer;opacity:.35
+}
+.secret-heart:hover{opacity:1}
+.secret-note{
+  position:absolute;right:22px;top:48px;background:#fff3f5;color:var(--wine-dark);
+  padding:10px 12px;font:15px "Brush Script MT","Segoe Script",cursive;
+  transform:rotate(2deg);display:none;box-shadow:0 8px 20px #0003
+}
+.secret-note.show{display:block}
+
+@keyframes fade{from{opacity:.1;transform:scale(.995)}to{opacity:1;transform:none}}
+
+@media(max-width:760px){
+  body{overflow-x:hidden}
+  .scene{display:grid !important;min-height:auto;padding:14px 10px 28px}
+  .book{
+    width:96vw;height:auto;min-height:0;
+    grid-template-columns:1fr;overflow:visible;box-shadow:0 16px 45px #0008
+  }
+  .book:after{display:none}
+  .page{min-height:520px;padding:22px}
+  .nav,.num{display:none}
+  .cover-left .script.bottom{margin-left:20px}
+  .pol{padding:5px 5px 20px}
+  .caption{font-size:12px}
+  .playing-card{width:90%;height:270px;padding:15px}
+  .playing-card .photo{height:190px}
+  .started-left .year{font-size:50px}
+  .started-right .script{font-size:32px}
+  .started-right p{font-size:13px}
+  .toronto-right .pol.one{width:42%}
+  .toronto-right .pol.two{width:43%}
+  .grid{grid-template-columns:repeat(2,1fr);height:430px}
+  .glimpse-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(5,1fr);height:520px}
+  .envelope{width:90%;height:170px}
+  .letter-text{font-size:13px}
+}
+
+/* Romantic combination lock */
+.lock-screen{
+  position:fixed;inset:0;z-index:9999;background:var(--paper);
+  display:grid;place-items:center;padding:24px;transition:.65s ease;
+}
+.lock-screen.unlocked{opacity:0;visibility:hidden;pointer-events:none}
+.lock-wrap{width:min(760px,94vw);text-align:center}
+.lock-kicker{font:10px Arial,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--wine);margin-bottom:22px}
+.heart-lock{
+  width:min(370px,78vw);aspect-ratio:1/1;margin:0 auto 20px;
+  position:relative;filter:drop-shadow(0 24px 30px rgba(70,20,25,.16));
+}
+.heart-body{
+  position:absolute;left:50%;bottom:0;transform:translateX(-50%) rotate(-45deg);
+  width:72%;height:72%;background:linear-gradient(145deg,#8b1c2b,#61101d);
+  border-radius:18% 0 22% 0;box-shadow:inset 0 0 0 2px rgba(255,255,255,.14);
+}
+.heart-body:before,.heart-body:after{
+  content:"";position:absolute;width:100%;height:100%;background:inherit;border-radius:50%;
+}
+.heart-body:before{top:-50%;left:0}.heart-body:after{left:50%;top:0}
+.shackle{
+  position:absolute;left:50%;top:0;transform:translateX(-50%);
+  width:48%;height:46%;border:18px solid #c47d87;border-bottom:0;border-radius:100px 100px 0 0;
+  opacity:.95;
+}
+.lock-face{
+  position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);
+  width:72%;z-index:4;color:#f7e8e9;
+}
+.lock-title{font:31px "Brush Script MT","Segoe Script",cursive;margin-bottom:14px}
+.digits{display:flex;justify-content:center;gap:7px}
+.digit{display:grid;grid-template-rows:28px 44px 28px;gap:3px}
+.digit button{
+  border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.13);color:#fff;
+  border-radius:7px;min-width:42px;cursor:pointer;font-size:13px
+}
+.digit .val{
+  display:grid;place-items:center;background:#f7eee8;color:var(--wine);
+  border-radius:7px;font:21px Arial,sans-serif;min-width:42px
+}
+.unlock-btn{
+  border:1px solid var(--wine);background:transparent;color:var(--wine);
+  border-radius:999px;padding:12px 22px;min-height:44px;cursor:pointer;margin-top:10px
+}
+.unlock-btn:hover{background:var(--wine);color:#fff}
+.lock-note{font-size:12px;color:var(--muted);margin-top:12px}
+.lock-error{min-height:22px;color:var(--wine);font:17px "Brush Script MT","Segoe Script",cursive;margin-top:10px}
+@media(max-width:760px){
+  .lock-screen{padding:18px}
+  .heart-lock{width:min(330px,88vw)}
+  .shackle{border-width:15px}
+  .lock-title{font-size:27px}
+}
+
+
+/* V5.1 layout stabilization */
+.cover-right .tiny{
+  left:8% !important;
+  right:8% !important;
+  bottom:4.5% !important;
+  max-width:none !important;
+  width:auto !important;
+  font-size:18px !important;
+  line-height:1.15 !important;
+  color:var(--cream) !important;
+  background:rgba(74,12,21,.68);
+  padding:8px 10px;
+  z-index:12;
+  transform:rotate(-1deg);
+}
+.cover-right .pol.a{top:8% !important;height:39% !important}
+.cover-right .pol.b{bottom:17% !important;height:44% !important}
+.started-right .script{font-size:40px !important}
+.started-right p{font-size:16px !important;line-height:1.6 !important}
+.toronto-right{
+  display:grid;
+  grid-template-rows:auto auto auto 1fr;
+  align-content:start;
+}
+.toronto-right h2{font-size:clamp(38px,4.6vw,64px) !important}
+.toronto-right p{font-size:15px;line-height:1.55;margin:12px 0 8px;max-width:360px}
+.toronto-right .script{font-size:26px !important;line-height:1.08;max-width:410px}
+.toronto-right .pol.one{bottom:7% !important;height:30% !important}
+.toronto-right .pol.two{bottom:8% !important;height:35% !important}
+.mem-right .grid{height:72% !important}
+.mem-right .micro{line-height:1.45}
+.fate-left h2{font-size:clamp(38px,4.8vw,62px) !important}
+.fate-left .script{font-size:29px !important;line-height:1.1}
+.evidence{gap:12px !important}
+.line{padding-bottom:9px !important}
+.line b{font-size:22px !important}
+.line span{line-height:1.35}
+.letter-right h2{font-size:clamp(38px,4.8vw,62px) !important}
+.letter-text{font-size:15px !important;line-height:1.62 !important}
+
+@media (min-width:761px) and (max-height:760px){
+  .book{height:86vh !important;min-height:540px !important}
+  .page{padding:34px !important}
+  .cover-left .script.top{font-size:35px !important}
+  h1{font-size:clamp(50px,6.5vw,82px) !important}
+  .cover-left .script.bottom{font-size:25px !important}
+  .started-right .script{font-size:34px !important}
+  .started-right p{font-size:14px !important}
+  .toronto-right h2{font-size:46px !important}
+  .toronto-right .script{font-size:23px !important}
+  .mem-right .script{font-size:25px !important}
+}
+
+
+/* V6 refined lock */
+.heart-lock-svg{
+  width:min(430px,86vw) !important;
+  aspect-ratio:420/390 !important;
+  margin:0 auto 34px !important;
+  filter:drop-shadow(0 24px 30px rgba(70,20,25,.16));
+}
+.heart-svg{width:100%;height:100%;display:block}
+.heart-lock-svg .lock-face-svg{
+  top:61% !important;
+  width:58% !important;
+}
+.heart-lock-svg .lock-title{
+  font-size:28px !important;
+  margin-bottom:12px !important;
+  white-space:nowrap;
+}
+.unlock-btn{
+  margin-top:8px !important;
+  min-width:190px;
+}
+.lock-error{margin-top:12px !important}
+.lock-note{margin-top:6px !important}
+
+/* V6 deliberate future archive */
+.future-archive{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  height:100%;
+  align-content:center;
+}
+.future-frame{
+  background:var(--paper);
+  min-height:180px;
+  padding:18px;
+  position:relative;
+  border:1px solid rgba(113,21,34,.14);
+  box-shadow:0 10px 26px #0002;
+}
+.future-frame:nth-child(1){transform:rotate(-1.5deg)}
+.future-frame:nth-child(2){transform:rotate(1.5deg)}
+.future-frame:nth-child(3){transform:rotate(1deg)}
+.future-frame:nth-child(4){transform:rotate(-1deg)}
+.future-frame .empty-shot{
+  height:120px;
+  border:1px dashed rgba(113,21,34,.28);
+  display:grid;
+  place-items:center;
+  color:rgba(113,21,34,.48);
+  font:10px Arial,sans-serif;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  background:
+    linear-gradient(135deg,rgba(113,21,34,.025),rgba(113,21,34,.06));
+}
+.future-frame .future-label{
+  color:var(--wine);
+  font:22px "Brush Script MT","Segoe Script",cursive;
+  margin-top:8px;
+}
+.future-frame .future-note{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:2px;
+}
+@media(max-width:760px){
+  .heart-lock-svg .lock-title{font-size:22px !important}
+  .future-archive{grid-template-columns:1fr;gap:12px}
+  .future-frame{min-height:160px}
+}
+
+
+/* V6.1 lock geometry fix */
+.lock-screen{overflow:auto !important;padding:24px 16px !important}
+.lock-wrap{
+  width:min(560px,96vw) !important;
+  min-height:620px;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.heart-lock-svg{
+  width:min(420px,82vw) !important;
+  height:auto !important;
+  aspect-ratio:420/390 !important;
+  margin:10px auto 18px !important;
+  position:relative !important;
+}
+.heart-lock-svg .lock-face-svg{
+  position:absolute !important;
+  left:50% !important;
+  top:58% !important;
+  transform:translate(-50%,-50%) !important;
+  width:66% !important;
+  height:auto !important;
+  padding:14px 12px 16px !important;
+  box-sizing:border-box !important;
+}
+.heart-lock-svg .lock-title{
+  font-size:clamp(20px,3vw,27px) !important;
+  line-height:1 !important;
+  margin:0 0 14px !important;
+  white-space:nowrap !important;
+}
+.heart-lock-svg .digits{
+  display:grid !important;
+  grid-template-columns:repeat(4,1fr) !important;
+  gap:8px !important;
+  width:100% !important;
+}
+.heart-lock-svg .digit{
+  display:grid !important;
+  grid-template-rows:30px 58px 30px !important;
+  gap:5px !important;
+  min-width:0 !important;
+}
+.heart-lock-svg .digit button{
+  width:100% !important;
+  height:30px !important;
+  min-height:30px !important;
+  padding:0 !important;
+  display:grid !important;
+  place-items:center !important;
+  font-size:17px !important;
+  line-height:1 !important;
+  border-radius:8px !important;
+}
+.heart-lock-svg .digit .val{
+  width:100% !important;
+  height:58px !important;
+  min-height:58px !important;
+  display:grid !important;
+  place-items:center !important;
+  font-size:29px !important;
+  line-height:1 !important;
+  border-radius:8px !important;
+}
+.unlock-btn{
+  position:relative !important;
+  z-index:20 !important;
+  margin:6px auto 0 !important;
+  display:block !important;
+}
+.lock-error,.lock-note{position:relative !important;z-index:20 !important}
+
+@media(max-width:520px){
+  .lock-wrap{min-height:560px}
+  .heart-lock-svg{width:min(390px,94vw) !important}
+  .heart-lock-svg .lock-face-svg{width:68% !important;top:58% !important}
+  .heart-lock-svg .lock-title{font-size:19px !important}
+  .heart-lock-svg .digit{grid-template-rows:27px 50px 27px !important}
+  .heart-lock-svg .digit button{height:27px !important;min-height:27px !important}
+  .heart-lock-svg .digit .val{height:50px !important;min-height:50px !important;font-size:25px !important}
+}
+
+
+/* V6.2 clean heart lock */
+.clean-lock-wrap{
+  width:min(520px,96vw) !important;
+  min-height:650px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:10px !important;
+}
+.clean-heart-lock{
+  width:min(430px,88vw);
+  aspect-ratio:440/410;
+  position:relative;
+  margin:8px auto 26px;
+  filter:drop-shadow(0 20px 28px rgba(70,20,25,.14));
+}
+.clean-heart-svg{display:block;width:100%;height:100%}
+.clean-lock-panel{
+  position:absolute;
+  left:50%;
+  top:60%;
+  transform:translate(-50%,-50%);
+  width:66%;
+  background:rgba(101,16,29,.96);
+  border:2px solid rgba(214,143,154,.55);
+  border-radius:24px;
+  padding:18px 16px 16px;
+  box-shadow:0 12px 24px rgba(0,0,0,.14);
+}
+.clean-lock-title{
+  color:#fff7f2;
+  font:30px/1 "Brush Script MT","Segoe Script",cursive;
+  text-align:center;
+  margin-bottom:16px;
+  white-space:nowrap;
+}
+.clean-digits{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+.clean-digit{
+  display:grid;
+  grid-template-rows:32px 60px 32px;
+  gap:6px;
+  min-width:0;
+}
+.clean-digit button{
+  width:100%;
+  height:32px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.1);
+  color:#fff;
+  display:grid;
+  place-items:center;
+  padding:0;
+  cursor:pointer;
+  font-size:17px;
+}
+.clean-val{
+  width:100%;
+  height:60px;
+  border-radius:8px;
+  background:#fff6ef;
+  color:#761725;
+  display:grid;
+  place-items:center;
+  font:30px/1 Arial,sans-serif;
+}
+.clean-unlock-btn{
+  margin-top:0 !important;
+}
+@media(max-width:520px){
+  .clean-lock-wrap{min-height:600px !important}
+  .clean-heart-lock{width:min(390px,94vw)}
+  .clean-lock-panel{width:68%;top:60%;padding:15px 12px 13px}
+  .clean-lock-title{font-size:22px;margin-bottom:12px}
+  .clean-digits{gap:7px}
+  .clean-digit{grid-template-rows:28px 52px 28px;gap:5px}
+  .clean-digit button{height:28px;font-size:15px}
+  .clean-val{height:52px;font-size:26px}
+}
+
+
+/* V6.3 vinyl gate */
+.vinyl-lock-wrap{
+  width:min(900px,96vw) !important;
+  min-height:620px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:18px !important;
+}
+.vinyl-gate{
+  width:min(820px,94vw);
+  display:grid;
+  grid-template-columns:1fr .9fr;
+  gap:36px;
+  align-items:center;
+}
+.vinyl-disc{
+  width:min(390px,42vw);
+  aspect-ratio:1;
+  border-radius:50%;
+  margin:auto;
+  position:relative;
+  background:
+    radial-gradient(circle at center,#111 0 4%,#3a0d13 4.3% 5.8%,#111 6% 100%);
+  box-shadow:0 26px 44px rgba(0,0,0,.28);
+  animation:vinylSpin 12s linear infinite;
+}
+.vinyl-disc:before{
+  content:"";
+  position:absolute;inset:0;border-radius:50%;
+  background:repeating-radial-gradient(circle at center,
+    rgba(255,255,255,.045) 0 1px,
+    rgba(0,0,0,.11) 2px 4px);
+  mix-blend-mode:screen;opacity:.7;
+}
+.vinyl-disc:after{
+  content:"";position:absolute;left:50%;top:50%;
+  width:12px;height:12px;border-radius:50%;
+  background:#15100f;transform:translate(-50%,-50%);
+  box-shadow:0 0 0 3px #d7c4ad;
+}
+.vinyl-label{
+  position:absolute;left:50%;top:50%;
+  width:36%;aspect-ratio:1;border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:var(--wine);
+  color:var(--cream);
+  display:grid;place-items:center;text-align:center;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.15);
+  padding:18px;
+}
+.vinyl-side{font:9px Arial,sans-serif;letter-spacing:.2em}
+.vinyl-us{font:34px "Brush Script MT","Segoe Script",cursive;line-height:.9}
+.vinyl-date{font:10px Arial,sans-serif;letter-spacing:.18em}
+.vinyl-lock-panel{
+  background:var(--paper);
+  border:1px solid rgba(113,21,34,.16);
+  box-shadow:0 18px 40px rgba(68,33,20,.12);
+  padding:34px 28px 26px;
+}
+.vinyl-lock-title{
+  color:var(--wine);
+  font:38px/1 "Brush Script MT","Segoe Script",cursive;
+  text-align:center;
+  margin-bottom:24px;
+}
+.vinyl-lock-panel .clean-digits{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+.vinyl-lock-panel .clean-digit{
+  display:grid;
+  grid-template-rows:32px 60px 32px;
+  gap:6px;
+}
+.vinyl-lock-panel .clean-digit button{
+  height:32px;border-radius:8px;
+  border:1px solid rgba(113,21,34,.28);
+  background:#f0e4d7;color:var(--wine);
+  display:grid;place-items:center;padding:0;cursor:pointer;
+}
+.vinyl-lock-panel .clean-val{
+  height:60px;border-radius:8px;background:#fffaf3;
+  border:1px solid rgba(113,21,34,.16);
+  display:grid;place-items:center;color:var(--wine);
+  font:30px/1 Arial,sans-serif;
+}
+.vinyl-lock-panel .unlock-btn{
+  display:block;margin:24px auto 0 !important;
+}
+.vinyl-lock-panel .lock-error,
+.vinyl-lock-panel .lock-note{
+  text-align:center;
+}
+@keyframes vinylSpin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.vinyl-disc{animation:none}}
+@media(max-width:760px){
+  .vinyl-lock-wrap{min-height:auto !important;padding:24px 0}
+  .vinyl-gate{grid-template-columns:1fr;gap:24px}
+  .vinyl-disc{width:min(300px,72vw)}
+  .vinyl-lock-panel{padding:26px 18px 22px}
+  .vinyl-lock-title{font-size:30px}
+}
+
+</style>
+</head>
+<body>
+
+<div class="lock-screen" id="lockScreen" aria-label="Anniversary lock">
+  <div class="lock-wrap vinyl-lock-wrap">
+    <div class="lock-kicker">private anniversary archive</div>
+
+    <div class="vinyl-gate">
+      <div class="vinyl-disc" aria-hidden="true">
+        <div class="vinyl-label">
+          <div class="vinyl-side">SIDE A</div>
+          <div class="vinyl-us">US</div>
+          <div class="vinyl-date">17 · 03</div>
+        </div>
+      </div>
+
+      <div class="vinyl-lock-panel">
+        <div class="vinyl-lock-title">The Day It All Started</div>
+        <div class="clean-digits" role="group" aria-label="Four digit combination lock">
+          <div class="clean-digit">
+            <button type="button" data-step="-1" data-pos="0" aria-label="Increase first digit">▲</button>
+            <div class="clean-val" data-val="0">0</div>
+            <button type="button" data-step="1" data-pos="0" aria-label="Decrease first digit">▼</button>
+          </div>
+          <div class="clean-digit">
+            <button type="button" data-step="-1" data-pos="1" aria-label="Increase second digit">▲</button>
+            <div class="clean-val" data-val="1">0</div>
+            <button type="button" data-step="1" data-pos="1" aria-label="Decrease second digit">▼</button>
+          </div>
+          <div class="clean-digit">
+            <button type="button" data-step="-1" data-pos="2" aria-label="Increase third digit">▲</button>
+            <div class="clean-val" data-val="2">0</div>
+            <button type="button" data-step="1" data-pos="2" aria-label="Decrease third digit">▼</button>
+          </div>
+          <div class="clean-digit">
+            <button type="button" data-step="-1" data-pos="3" aria-label="Increase fourth digit">▲</button>
+            <div class="clean-val" data-val="3">0</div>
+            <button type="button" data-step="1" data-pos="3" aria-label="Decrease fourth digit">▼</button>
+          </div>
+        </div>
+        <button class="unlock-btn clean-unlock-btn" id="unlockBtn" type="button">unlock our story ♡</button>
+        <div class="lock-error" id="lockError"></div>
+        <div class="lock-note">Four digits. One date. ♡</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="site">
+
+<section class="scene active">
+  <div class="book">
+    <div class="page cover-left">
+      <div class="micro" style="color:var(--wine)">ANNIVERSARY EDITION / VOL. I</div>
+      <div class="script top">somehow, always...</div>
+      <h1>EVERYTHING<br>LED TO US</h1>
+      <div class="script bottom">our first chapter</div>
+    </div>
+    <div class="page pin cover-right">
+      <div class="pol a"><div class="photo"></div><div class="caption">Toronto, us</div></div>
+      <div class="pol b"><div class="photo"></div><div class="caption">my favorite place is next to you</div></div>
+      <div class="tiny">Some stories begin quietly — long before you realize you're in one.</div>
+      <div class="fold"></div>
+    </div>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="book">
+    <div class="page started-left">
+      <div class="micro" style="color:var(--wine)">01 / BEFORE THERE WAS US</div>
+      <div style="position:absolute;left:8%;top:14%;width:38%;height:56%;background:#f1e3cf;padding:9px 9px 30px;box-shadow:0 12px 28px #0002;transform:rotate(-4deg)">
+        <div class="photo"></div><div class="caption">baby me</div>
+      </div>
+      <div style="position:absolute;right:8%;top:21%;width:38%;height:56%;background:#f1e3cf;padding:9px 9px 30px;box-shadow:0 12px 28px #0002;transform:rotate(4deg)">
+        <div class="photo"></div><div class="caption">baby you</div>
+      </div>
+      <div style="position:absolute;left:50%;bottom:8%;transform:translateX(-50%);text-align:center;width:84%">
+        <div class="script" style="font-size:34px;color:var(--wine)">Before there was an “us”...</div>
+        <div style="font-size:16px;color:var(--muted);margin-top:8px">there was you, and there was me.</div>
+      </div>
+    </div>
+    <div class="page wine started-right">
+      <div class="micro">SAME HIGH SCHOOL / SAME LITTLE UNIVERSE</div>
+      <div class="script">Two little lives, already somewhere in the same story.</div>
+      <p>Back then, there was no grand beginning. No obvious sign. Just you, me, and years of life still waiting to happen.</p>
+      <p>Maybe that is what makes looking at these pictures so strange now — knowing who those two kids would one day become to each other.</p>
+      <div class="fold"></div>
+    </div>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="book">
+    <div class="page" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+      <div class="micro" style="color:var(--wine)">02 / THE DAY IT ALL STARTED</div>
+      <div style="font-size:clamp(84px,10vw,150px);line-height:.9;color:var(--wine);letter-spacing:-.07em;margin:22px 0">17.03</div>
+      <div class="script" style="font-size:34px;color:var(--wine)">Such an ordinary way for everything to change.</div>
+    </div>
+    <div class="page wine" style="display:flex;flex-direction:column;justify-content:center">
+      <div style="display:grid;gap:23px">
+        <div><div class="micro">FIRST</div><div style="font-size:27px;margin-top:5px">You followed me.</div></div>
+        <div><div class="micro">THEN</div><div style="font-size:27px;margin-top:5px">You replied to my story.</div></div>
+        <div><div class="micro">AND SOMEHOW</div><div style="font-size:27px;margin-top:5px">We never really stopped talking.</div></div>
+      </div>
+      <div class="script" style="font-size:34px;margin-top:40px">One reply became a conversation. The conversation became every day. And suddenly, everything was different.</div>
+    </div>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="book">
+    <div class="page toronto-left">
+      <div class="photo"></div>
+      <div class="label">Toronto — where “us” became real.</div>
+    </div>
+    <div class="page toronto-right">
+      <div class="micro" style="color:var(--wine)">03 / TORONTO</div>
+      <h2>So we chose<br>a city in<br>between.</h2>
+      <p style="max-width:390px">Me in Paris. You in Kansas. And somehow the answer was Toronto.</p>
+      <div class="script">the place where the person on my screen became the person beside me</div>
+      <div class="pol one"><div class="photo"></div><div class="caption">first days together</div></div>
+      <div class="pol two"><div class="photo"></div><div class="caption">I still replay this</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="book">
+    <div class="page mem-left">
+      <div class="micro" style="color:var(--wine)">04 / OUR TORONTO ARCHIVE</div>
+      <div class="pol one"><div class="photo"></div><div class="caption">you</div></div>
+      <div class="pol two"><div class="photo"></div><div class="caption">us</div></div>
+      <div class="pol three"><div class="photo"></div><div class="caption">one I never want to forget</div></div>
+      <div class="fold"></div>
+    </div>
+    <div class="page mem-right">
+      <div class="script">the little things I kept</div>
+      <div class="grid">
+        <div class="photo"></div><div class="photo"></div><div class="photo"></div>
+        <div class="photo"></div><div class="photo"></div><div class="photo"></div>
+      </div>
+      <div class="micro" style="color:var(--wine);margin-top:12px">hotel mornings · streets · food · blurry pictures · you looking at me · us being us</div>
+    </div>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="book">
+    <div class="page glimpse-left">
+      <div>
+        <div class="micro" style="color:var(--wine);margin-bottom:20px">05 / PROOF</div>
+        <div class="script" style="font-size:48px;color:var(--wine);text-align:center">It wasn't just<br>in our heads.</div>
+        <p style="text-align:center;max-width:340px;margin:24px auto;color:var(--muted)">Every picture from Toronto feels like proof that what we found through a screen was even better in real life.</p>
+      </div>
+      <div class="fold"></div>
+    </div>
+    <div class="page glimpse-right">
+      <div class="glimpse-grid">
+        <div class="photo"></div><div class="photo"></div><div class="photo"></div>
+        <div class="photo"></div><div class="photo"></div><div class="photo"></div>
+        <div class="photo"></div><div class="photo"></div><div class="photo"></div>
+      </div>
+      <button class="secret-heart" id="secretHeart" aria-label="Hidden surprise">♥</button>
+      <div class="secret-note" id="secretNote">I'd go back to every one of these moments with you. ♡</div>
+    </div>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="book">
+    <div class="page fate-left">
+      <div class="micro" style="color:var(--wine)">06 / THE RED THREAD</div>
+      <h2>Maybe ours<br>stretched for<br>nine years.</h2>
+      <div class="script">but it never broke.</div>
+    </div>
+    <div class="page wine">
+      <div class="evidence">
+        <div class="line"><b>Some things only make sense later.</b><span>Not every beginning announces itself when it happens.</span></div>
+        <div class="line"><b>Some people return at exactly the right time.</b><span>Not because the years disappeared — but because you became ready for each other inside them.</span></div>
+        <div class="line"><b>Some distances only prove how far love is willing to travel.</b><span>Paris, Kansas, Toronto — none of it felt bigger than what made sense between us.</span></div>
+        <div class="line"><b>And some meetings feel less like introductions...</b><span>...and more like finally recognizing something that was always yours.</span></div>
+      </div>
+      <div class="script" style="font-size:27px;text-align:center;margin-top:25px">Maybe we didn't find each other again. Maybe we finally reached the other end of the thread.</div>
+    </div>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="book">
+    <div class="page" style="display:flex;flex-direction:column;justify-content:center">
+      <div class="micro" style="color:var(--wine)">07 / THE LIFE WE HAVEN'T LIVED YET</div>
+      <h2 style="color:var(--wine);margin-top:18px">Some of my favorite memories with you haven't happened yet.</h2>
+      <div class="script" style="font-size:31px;color:var(--wine);margin-top:24px">So these are the only pictures in this book that are supposed to be empty.</div>
+      <p style="max-width:420px;color:var(--muted)">Not missing photos. Future ones. Places we haven't stood yet, mornings we haven't woken up to yet, a life we haven't photographed yet.</p>
+    </div>
+    <div class="page pin" style="padding:30px">
+      <div class="future-archive">
+        <div class="future-frame"><div class="empty-shot">not taken yet</div><div class="future-label">our home</div><div class="future-note">reserved for us</div></div>
+        <div class="future-frame"><div class="empty-shot">not taken yet</div><div class="future-label">an ordinary Sunday</div><div class="future-note">the kind I can't wait for</div></div>
+        <div class="future-frame"><div class="empty-shot">not taken yet</div><div class="future-label">tiny versions of us</div><div class="future-note">one day ♡</div></div>
+        <div class="future-frame"><div class="empty-shot">not taken yet</div><div class="future-label">somewhere we haven't chosen yet</div><div class="future-note">still to come</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene">
+  <div class="book">
+    <div class="page letter-left">
+      <div>
+        <div class="micro" style="color:var(--wine);text-align:center;margin-bottom:28px">08 / FOR OUR ANNIVERSARY</div>
+        <div class="envelope" id="env"><div class="script">for my forever ♡</div></div>
+      </div>
+    </div>
+    <div class="page wine letter-right">
+      <div class="micro">A LETTER FOR YOU</div>
+      <h2>And after<br>everything...</h2>
+      <div class="letter-text" id="letter">
+        <p><em>This page is intentionally unfinished.</em></p>
+        <p>Your real anniversary letter will live here — in your own words, with the tone you actually use with him.</p>
+        <p>When you're ready, you can write it messily, send it to me, and I'll help shape it without making it sound generic or unlike you.</p>
+        <div class="sign">for my forever ♡</div>
+        <div class="micro" style="margin-top:20px">17.03 — ∞</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<button class="nav prev" aria-label="Previous">‹</button>
+<button class="nav next" aria-label="Next">›</button>
+<div class="num">01 / 09</div>
+
+<script>
+let index=0;
+const scenes=[...document.querySelectorAll('.scene')];
+const num=document.querySelector('.num');
+function show(n){
+  index=Math.max(0,Math.min(n,scenes.length-1));
+  scenes.forEach((s,i)=>s.classList.toggle('active',i===index));
+  num.textContent=String(index+1).padStart(2,'0')+' / 09';
+}
+document.querySelector('.next').addEventListener('click',()=>show(index+1));
+document.querySelector('.prev').addEventListener('click',()=>show(index-1));
+
+const env=document.getElementById('env');
+const letter=document.getElementById('letter');
+env.addEventListener('click',()=>{
+  env.classList.toggle('open');
+  letter.classList.toggle('show');
+});
+
+const secretHeart=document.getElementById('secretHeart');
+const secretNote=document.getElementById('secretNote');
+secretHeart.addEventListener('click',()=>secretNote.classList.toggle('show'));
+</script>
+
+<script>
+(() => {
+  // CHANGE THIS TO YOUR 4-DIGIT ANNIVERSARY CODE BEFORE PUBLISHING.
+  const ACCESS_CODE = "1703";
+  const state = [0,0,0,0];
+  const root = document.getElementById("lockScreen");
+  const error = document.getElementById("lockError");
+  const render = () => state.forEach((n,i) => {
+    const el = document.querySelector(`[data-val="${i}"]`);
+    if (el) el.textContent = String(n);
+  });
+  document.querySelectorAll(".clean-digit button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const pos = Number(btn.dataset.pos);
+      const step = Number(btn.dataset.step);
+      state[pos] = (state[pos] + step + 10) % 10;
+      render();
+      error.textContent = "";
+    });
+  });
+  document.getElementById("unlockBtn").addEventListener("click", () => {
+    const attempt = state.join("");
+    if (attempt === ACCESS_CODE) {
+      root.classList.add("unlocked");
+      error.textContent = "";
+    } else {
+      error.textContent = "hmm... are you sure you're my boyfriend? ♡";
+    }
+  });
+  render();
+})();
+</script>
+
+</body>
+</html>
