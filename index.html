@@ -786,6 +786,22 @@ p{line-height:1.7}
   display:none;
 }
 
+
+/* V8.2 — baby-photo frames need an explicit height because their images are absolutely positioned */
+.started-left [data-photo="baby-me"],
+.started-left [data-photo="baby-him"]{
+  width:100% !important;
+  height:100% !important;
+  min-height:0 !important;
+}
+.started-left [data-photo="baby-me"] img,
+.started-left [data-photo="baby-him"] img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  display:block !important;
+}
+
 </style>
 </head>
 <body>
