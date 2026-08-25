@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- Everything Led To Us — V8 explicit JPEG photo system -->
+<!-- Everything Led To Us — V8.1 direct JPEG photo system; no JS dependency -->
 <title>Everything Led To Us</title>
 <style>
 :root{
@@ -766,7 +766,7 @@ p{line-height:1.7}
   text-transform:uppercase;
   pointer-events:none;
 }
-.photo.image-loaded::after{display:none}
+.photo.image-loaded::after{display:none !important}
 
 /* Crop helpers can be applied later to individual slots without renaming files. */
 .photo[data-photo="baby-me"] img,
@@ -774,6 +774,17 @@ p{line-height:1.7}
 .photo[data-photo="cover-01"] img,
 .photo[data-photo="cover-02"] img{object-position:center center}
 .photo[data-photo="toronto-hero"] img{object-position:center center}
+
+
+/* V8.1 — image display does not depend on JavaScript */
+.photo img[data-slot-image]{
+  opacity:1 !important;
+  visibility:visible !important;
+  z-index:2 !important;
+}
+.photo:has(img[data-slot-image]:not([style*="display: none"]))::after{
+  display:none;
+}
 
 </style>
 </head>
@@ -835,8 +846,8 @@ p{line-height:1.7}
       <div class="script bottom">our first chapter</div>
     </div>
     <div class="page pin cover-right">
-      <div class="pol a"><div class="photo" data-photo="cover-01" data-placeholder="cover photo"><img src="./images/cover-01.jpeg" alt="cover photo" data-slot-image="cover-01"></div><div class="caption">Toronto, us</div></div>
-      <div class="pol b"><div class="photo" data-photo="cover-02" data-placeholder="cover photo"><img src="./images/cover-02.jpeg" alt="cover photo" data-slot-image="cover-02"></div><div class="caption">my favorite place is next to you</div></div>
+      <div class="pol a"><div class="photo" data-photo="cover-01" data-placeholder="cover photo"><img src="images/cover-01.jpeg" alt="cover photo" data-slot-image="cover-01" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="caption">Toronto, us</div></div>
+      <div class="pol b"><div class="photo" data-photo="cover-02" data-placeholder="cover photo"><img src="images/cover-02.jpeg" alt="cover photo" data-slot-image="cover-02" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="caption">my favorite place is next to you</div></div>
       <div class="tiny">Some stories begin quietly — long before you realize you're in one.</div>
       <div class="fold"></div>
     </div>
@@ -848,10 +859,10 @@ p{line-height:1.7}
     <div class="page started-left">
       <div class="micro" style="color:var(--wine)">01 / BEFORE THERE WAS US</div>
       <div style="position:absolute;left:8%;top:14%;width:38%;height:56%;background:#f1e3cf;padding:9px 9px 30px;box-shadow:0 12px 28px #0002;transform:rotate(-4deg)">
-        <div class="photo" data-photo="baby-me" data-placeholder="baby me"><img src="./images/baby-me.jpeg" alt="baby me" data-slot-image="baby-me"></div><div class="caption">baby me</div>
+        <div class="photo" data-photo="baby-me" data-placeholder="baby me"><img src="images/baby-me.jpeg" alt="baby me" data-slot-image="baby-me" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="caption">baby me</div>
       </div>
       <div style="position:absolute;right:8%;top:21%;width:38%;height:56%;background:#f1e3cf;padding:9px 9px 30px;box-shadow:0 12px 28px #0002;transform:rotate(4deg)">
-        <div class="photo" data-photo="baby-him" data-placeholder="baby him"><img src="./images/baby-him.jpeg" alt="baby him" data-slot-image="baby-him"></div><div class="caption">baby you</div>
+        <div class="photo" data-photo="baby-him" data-placeholder="baby him"><img src="images/baby-him.jpeg" alt="baby him" data-slot-image="baby-him" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="caption">baby you</div>
       </div>
       <div style="position:absolute;left:50%;bottom:8%;transform:translateX(-50%);text-align:center;width:84%">
         <div class="script" style="font-size:34px;color:var(--wine)">Before there was an “us”...</div>
@@ -889,7 +900,7 @@ p{line-height:1.7}
 <section class="scene">
   <div class="book">
     <div class="page toronto-left">
-      <div class="photo" data-photo="toronto-hero" data-placeholder="Toronto hero"><img src="./images/toronto-hero.jpeg" alt="Toronto hero" data-slot-image="toronto-hero"></div>
+      <div class="photo" data-photo="toronto-hero" data-placeholder="Toronto hero"><img src="images/toronto-hero.jpeg" alt="Toronto hero" data-slot-image="toronto-hero" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div>
       <div class="label">Toronto — where “us” became real.</div>
     </div>
     <div class="page toronto-right">
@@ -897,8 +908,8 @@ p{line-height:1.7}
       <h2>So we chose<br>a city in<br>between.</h2>
       <p style="max-width:390px">Me in Paris. You in Kansas. And somehow the answer was Toronto.</p>
       <div class="script">the place where the person on my screen became the person beside me</div>
-      <div class="pol one"><div class="photo" data-photo="toronto-01" data-placeholder="Toronto photo"><img src="./images/toronto-01.jpeg" alt="Toronto photo" data-slot-image="toronto-01"></div><div class="caption">first days together</div></div>
-      <div class="pol two"><div class="photo" data-photo="toronto-02" data-placeholder="Toronto photo"><img src="./images/toronto-02.jpeg" alt="Toronto photo" data-slot-image="toronto-02"></div><div class="caption">I still replay this</div></div>
+      <div class="pol one"><div class="photo" data-photo="toronto-01" data-placeholder="Toronto photo"><img src="images/toronto-01.jpeg" alt="Toronto photo" data-slot-image="toronto-01" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="caption">first days together</div></div>
+      <div class="pol two"><div class="photo" data-photo="toronto-02" data-placeholder="Toronto photo"><img src="images/toronto-02.jpeg" alt="Toronto photo" data-slot-image="toronto-02" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="caption">I still replay this</div></div>
     </div>
   </div>
 </section>
@@ -907,16 +918,16 @@ p{line-height:1.7}
   <div class="book">
     <div class="page mem-left">
       <div class="micro" style="color:var(--wine)">04 / OUR TORONTO ARCHIVE</div>
-      <div class="pol one"><div class="photo" data-photo="toronto-03" data-placeholder="Toronto photo"><img src="./images/toronto-03.jpeg" alt="Toronto photo" data-slot-image="toronto-03"></div><div class="caption">you</div></div>
-      <div class="pol two"><div class="photo" data-photo="toronto-04" data-placeholder="Toronto photo"><img src="./images/toronto-04.jpeg" alt="Toronto photo" data-slot-image="toronto-04"></div><div class="caption">us</div></div>
-      <div class="pol three"><div class="photo" data-photo="toronto-05" data-placeholder="Toronto photo"><img src="./images/toronto-05.jpeg" alt="Toronto photo" data-slot-image="toronto-05"></div><div class="caption">one I never want to forget</div></div>
+      <div class="pol one"><div class="photo" data-photo="toronto-03" data-placeholder="Toronto photo"><img src="images/toronto-03.jpeg" alt="Toronto photo" data-slot-image="toronto-03" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="caption">you</div></div>
+      <div class="pol two"><div class="photo" data-photo="toronto-04" data-placeholder="Toronto photo"><img src="images/toronto-04.jpeg" alt="Toronto photo" data-slot-image="toronto-04" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="caption">us</div></div>
+      <div class="pol three"><div class="photo" data-photo="toronto-05" data-placeholder="Toronto photo"><img src="images/toronto-05.jpeg" alt="Toronto photo" data-slot-image="toronto-05" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="caption">one I never want to forget</div></div>
       <div class="fold"></div>
     </div>
     <div class="page mem-right">
       <div class="script">the little things I kept</div>
       <div class="grid">
-        <div class="photo" data-photo="toronto-06" data-placeholder="Toronto detail"><img src="./images/toronto-06.jpeg" alt="Toronto detail" data-slot-image="toronto-06"></div><div class="photo" data-photo="toronto-07" data-placeholder="Toronto detail"><img src="./images/toronto-07.jpeg" alt="Toronto detail" data-slot-image="toronto-07"></div><div class="photo" data-photo="toronto-08" data-placeholder="Toronto detail"><img src="./images/toronto-08.jpeg" alt="Toronto detail" data-slot-image="toronto-08"></div>
-        <div class="photo" data-photo="toronto-09" data-placeholder="Toronto detail"><img src="./images/toronto-09.jpeg" alt="Toronto detail" data-slot-image="toronto-09"></div><div class="photo" data-photo="toronto-10" data-placeholder="Toronto detail"><img src="./images/toronto-10.jpeg" alt="Toronto detail" data-slot-image="toronto-10"></div><div class="photo" data-photo="toronto-11" data-placeholder="Toronto detail"><img src="./images/toronto-11.jpeg" alt="Toronto detail" data-slot-image="toronto-11"></div>
+        <div class="photo" data-photo="toronto-06" data-placeholder="Toronto detail"><img src="images/toronto-06.jpeg" alt="Toronto detail" data-slot-image="toronto-06" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="photo" data-photo="toronto-07" data-placeholder="Toronto detail"><img src="images/toronto-07.jpeg" alt="Toronto detail" data-slot-image="toronto-07" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="photo" data-photo="toronto-08" data-placeholder="Toronto detail"><img src="images/toronto-08.jpeg" alt="Toronto detail" data-slot-image="toronto-08" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div>
+        <div class="photo" data-photo="toronto-09" data-placeholder="Toronto detail"><img src="images/toronto-09.jpeg" alt="Toronto detail" data-slot-image="toronto-09" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="photo" data-photo="toronto-10" data-placeholder="Toronto detail"><img src="images/toronto-10.jpeg" alt="Toronto detail" data-slot-image="toronto-10" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="photo" data-photo="toronto-11" data-placeholder="Toronto detail"><img src="images/toronto-11.jpeg" alt="Toronto detail" data-slot-image="toronto-11" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div>
       </div>
       <div class="micro" style="color:var(--wine);margin-top:12px">hotel mornings · streets · food · blurry pictures · you looking at me · us being us</div>
     </div>
@@ -935,9 +946,9 @@ p{line-height:1.7}
     </div>
     <div class="page glimpse-right">
       <div class="glimpse-grid">
-        <div class="photo" data-photo="toronto-12" data-placeholder="Toronto memory"><img src="./images/toronto-12.jpeg" alt="Toronto memory" data-slot-image="toronto-12"></div><div class="photo" data-photo="toronto-13" data-placeholder="Toronto memory"><img src="./images/toronto-13.jpeg" alt="Toronto memory" data-slot-image="toronto-13"></div><div class="photo" data-photo="toronto-14" data-placeholder="Toronto memory"><img src="./images/toronto-14.jpeg" alt="Toronto memory" data-slot-image="toronto-14"></div>
-        <div class="photo" data-photo="toronto-15" data-placeholder="Toronto memory"><img src="./images/toronto-15.jpeg" alt="Toronto memory" data-slot-image="toronto-15"></div><div class="photo" data-photo="toronto-16" data-placeholder="Toronto memory"><img src="./images/toronto-16.jpeg" alt="Toronto memory" data-slot-image="toronto-16"></div><div class="photo" data-photo="toronto-17" data-placeholder="Toronto memory"><img src="./images/toronto-17.jpeg" alt="Toronto memory" data-slot-image="toronto-17"></div>
-        <div class="photo" data-photo="toronto-18" data-placeholder="Toronto memory"><img src="./images/toronto-18.jpeg" alt="Toronto memory" data-slot-image="toronto-18"></div><div class="photo" data-photo="toronto-19" data-placeholder="Toronto memory"><img src="./images/toronto-19.jpeg" alt="Toronto memory" data-slot-image="toronto-19"></div><div class="photo" data-photo="toronto-20" data-placeholder="Toronto memory"><img src="./images/toronto-20.jpeg" alt="Toronto memory" data-slot-image="toronto-20"></div>
+        <div class="photo" data-photo="toronto-12" data-placeholder="Toronto memory"><img src="images/toronto-12.jpeg" alt="Toronto memory" data-slot-image="toronto-12" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="photo" data-photo="toronto-13" data-placeholder="Toronto memory"><img src="images/toronto-13.jpeg" alt="Toronto memory" data-slot-image="toronto-13" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="photo" data-photo="toronto-14" data-placeholder="Toronto memory"><img src="images/toronto-14.jpeg" alt="Toronto memory" data-slot-image="toronto-14" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div>
+        <div class="photo" data-photo="toronto-15" data-placeholder="Toronto memory"><img src="images/toronto-15.jpeg" alt="Toronto memory" data-slot-image="toronto-15" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="photo" data-photo="toronto-16" data-placeholder="Toronto memory"><img src="images/toronto-16.jpeg" alt="Toronto memory" data-slot-image="toronto-16" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="photo" data-photo="toronto-17" data-placeholder="Toronto memory"><img src="images/toronto-17.jpeg" alt="Toronto memory" data-slot-image="toronto-17" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div>
+        <div class="photo" data-photo="toronto-18" data-placeholder="Toronto memory"><img src="images/toronto-18.jpeg" alt="Toronto memory" data-slot-image="toronto-18" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="photo" data-photo="toronto-19" data-placeholder="Toronto memory"><img src="images/toronto-19.jpeg" alt="Toronto memory" data-slot-image="toronto-19" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="photo" data-photo="toronto-20" data-placeholder="Toronto memory"><img src="images/toronto-20.jpeg" alt="Toronto memory" data-slot-image="toronto-20" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div>
       </div>
       <button class="secret-heart" id="secretHeart" aria-label="Hidden surprise">♥</button>
       <div class="secret-note" id="secretNote">I'd go back to every one of these moments with you. ♡</div>
@@ -1070,27 +1081,6 @@ secretHeart.addEventListener('click',()=>secretNote.classList.toggle('show'));
 
 
 
-<script>
-(function(){
-  document.querySelectorAll('img[data-slot-image]').forEach(img => {
-    const slot = img.closest('.photo');
-    const markLoaded = () => slot && slot.classList.add('image-loaded');
-    const markMissing = () => {
-      if (slot) slot.classList.remove('image-loaded');
-      img.style.display = 'none';
-    };
-
-    img.addEventListener('load', markLoaded);
-    img.addEventListener('error', markMissing);
-
-    // Handles images already present in browser cache.
-    if (img.complete) {
-      if (img.naturalWidth > 0) markLoaded();
-      else markMissing();
-    }
-  });
-})();
-</script>
 
 </body>
 </html>
