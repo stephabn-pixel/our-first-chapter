@@ -802,6 +802,65 @@ p{line-height:1.7}
   display:block !important;
 }
 
+
+/* V9 final letter layout — preserve all text, improve fit */
+.letter-left{
+  align-items:center !important;
+  justify-content:center !important;
+}
+.letter-right{
+  position:relative !important;
+  overflow:hidden !important;
+}
+.letter-right h2{
+  margin-bottom:14px !important;
+}
+.letter-text{
+  max-width:100% !important;
+  font-size:14px !important;
+  line-height:1.48 !important;
+  overflow:auto !important;
+  padding-right:8px !important;
+  margin-top:6px !important;
+  max-height:58vh !important;
+  scrollbar-width:thin;
+}
+.letter-text p{
+  margin:0 0 10px !important;
+}
+.letter-text strong{
+  font-weight:600;
+}
+@media (min-width:761px){
+  .letter-right{
+    padding:34px 38px !important;
+  }
+  .letter-right h2{
+    font-size:clamp(34px,4.2vw,54px) !important;
+    line-height:.92 !important;
+  }
+  .letter-text{
+    font-size:13.5px !important;
+    line-height:1.44 !important;
+    max-height:49vh !important;
+  }
+}
+@media (max-width:760px){
+  .letter-right{
+    min-height:620px !important;
+  }
+  .letter-right h2{
+    font-size:38px !important;
+  }
+  .letter-text{
+    font-size:13px !important;
+    line-height:1.5 !important;
+    max-height:none !important;
+    overflow:visible !important;
+    padding-right:0 !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -900,7 +959,7 @@ p{line-height:1.7}
     <div class="page" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
       <div class="micro" style="color:var(--wine)">02 / THE DAY IT ALL STARTED</div>
       <div style="font-size:clamp(84px,10vw,150px);line-height:.9;color:var(--wine);letter-spacing:-.07em;margin:22px 0">17.03</div>
-      <div class="script" style="font-size:34px;color:var(--wine)">Such an ordinary way for everything to change.</div>
+      <div class="script" style="font-size:34px;color:var(--wine)">Such an ordinary day for everything to change.</div>
     </div>
     <div class="page wine" style="display:flex;flex-direction:column;justify-content:center">
       <div style="display:grid;gap:23px">
@@ -908,7 +967,7 @@ p{line-height:1.7}
         <div><div class="micro">THEN</div><div style="font-size:27px;margin-top:5px">You replied to my story.</div></div>
         <div><div class="micro">AND SOMEHOW</div><div style="font-size:27px;margin-top:5px">We never really stopped talking.</div></div>
       </div>
-      <div class="script" style="font-size:34px;margin-top:40px">One reply became a conversation. The conversation became every day. And suddenly, everything was different.</div>
+      <div class="script" style="font-size:34px;margin-top:40px">One reply became a conversation. And suddenly, everything was different.</div>
     </div>
   </div>
 </section>
@@ -923,7 +982,7 @@ p{line-height:1.7}
       <div class="micro" style="color:var(--wine)">03 / TORONTO</div>
       <h2>So we chose<br>a city in<br>between.</h2>
       <p style="max-width:390px">Me in Paris. You in Kansas. And somehow the answer was Toronto.</p>
-      <div class="script">the place where the person on my screen became the person beside me</div>
+      <div class="script">the place where I finally got to be in the arms of my forever</div>
       <div class="pol one"><div class="photo" data-photo="toronto-01" data-placeholder="Toronto photo"><img src="images/toronto-01.jpeg" alt="Toronto photo" data-slot-image="toronto-01" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="caption">first days together</div></div>
       <div class="pol two"><div class="photo" data-photo="toronto-02" data-placeholder="Toronto photo"><img src="images/toronto-02.jpeg" alt="Toronto photo" data-slot-image="toronto-02" onerror="this.style.display='none'; this.parentElement.classList.remove('image-loaded');" onload="this.parentElement.classList.add('image-loaded');"></div><div class="caption">I still replay this</div></div>
     </div>
@@ -956,7 +1015,7 @@ p{line-height:1.7}
       <div>
         <div class="micro" style="color:var(--wine);margin-bottom:20px">05 / PROOF</div>
         <div class="script" style="font-size:48px;color:var(--wine);text-align:center">It wasn't just<br>in our heads.</div>
-        <p style="text-align:center;max-width:340px;margin:24px auto;color:var(--muted)">Every picture from Toronto feels like proof that what we found through a screen was even better in real life.</p>
+        <p style="text-align:center;max-width:340px;margin:24px auto;color:var(--muted)">Every picture from Toronto feels like proof that our trip was one for the books. I love you so much, I keep replaying every second.</p>
       </div>
       <div class="fold"></div>
     </div>
@@ -1022,10 +1081,15 @@ p{line-height:1.7}
       <div class="micro">A LETTER FOR YOU</div>
       <h2>And after<br>everything...</h2>
       <div class="letter-text" id="letter">
-        <p><em>This page is intentionally unfinished.</em></p>
-        <p>Your real anniversary letter will live here — in your own words, with the tone you actually use with him.</p>
-        <p>When you're ready, you can write it messily, send it to me, and I'll help shape it without making it sound generic or unlike you.</p>
-        <div class="sign">for my forever ♡</div>
+        <p>And after everything…</p>
+        <p><strong>somehow, this is only the beginning.</strong></p>
+        <p>One month of knowing what it feels like to physically love you and be loved by you. One (more) month of laughing until my cheeks hurt, missing you from an ocean away, learning every little part of you, dreaming about our future, and slowly turning you and me into us.</p>
+        <p>It’s strange, because you still give me butterflies like something brand new, yet loving you feels like something my heart has been doing forever.</p>
+        <p>If this is only the beginning, my love, imagine us in a year. In ten. In fifty.</p>
+        <p>Happy one month to my favorite person, my answered prayer, and the man I already can’t live a day without.</p>
+        <p>I love you beyond words.</p>
+        <p>And I’m so excited for our forever. ❤️</p>
+</div>
         <div class="micro" style="margin-top:20px">17.03 — ∞</div>
       </div>
     </div>
